@@ -6,16 +6,16 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:03:54 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/17 19:21:14 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/19 19:56:00 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_unsigned_itoa_base(unsigned int value, char *base, int size)
+char	*ft_unsigned_itoa_base(unsigned long value, char *base, int size)
 {
-	unsigned int	n;
-	unsigned int	nb;
+	unsigned long	n;
+	unsigned long	nb;
 	int				len;
 	int				i;
 	char			*dest;

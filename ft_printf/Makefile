@@ -1,4 +1,6 @@
-SRCS		= 	ft_printf2.c
+SRCS		= 	ft_printf.c \
+				ft_printtypes.c \
+				ft_flags.c \
 
 HEADERS		=	printf.h
 
