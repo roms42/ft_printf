@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 16:41:38 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/19 19:23:06 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/20 18:29:08 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,69 @@ void	ft_allflags(t_toprint print, int k, const char *s, int prec)
 		ft_noflag(print, prec);
 }
 
-int	ft_subprintf(const char *s, va_list *list)
+int		ft_getwidth(int *i, int *k, const char *s)
 {
-	int			i;
-	int			j;
-	int			k;
-	int			width;
-	char		*tmp;
-	t_toprint	print;
-	char		*tab;
-	char		*(*tabfunct[8])(va_list*);
-	int			index;
-	int			prec;
-	int			l;
+	int j;
+	char *tmp;
+	int width;
 
-	i = 0;
-	k = 0;
-	l = 0;
-	prec = 0;
-	width = 0;
+	tmp = malloc(sizeof(char) * (*i + 1));
+	if (!tmp)
+		return (0);
+	j = 0;
+	while (j < *i)
+	{
+		tmp[j] = s[j + *k];
+		j++;
+	}
+	tmp[j] = 0;
+	width = ft_atoi(tmp);
+	free (tmp);
+	return (width);
+}
+
+int		ft_getprecision(int *i, int *l, va_list *list, const char *s)
+{
+	int j;
+	int prec;
+	char *tmp;
+
+	j = 0;
+	prec = 1;
+	*i = *i + 1;
+	if (s[*i] == '*')
+	{
+		prec = va_arg(*list, int);
+		*l = *l + 1;
+	}
+	else
+	{
+		while (s[*i + *l] > '0' && s[*i + *l] <= '9')
+			*l = *l + 1;
+		if (*l)
+		{
+			tmp = malloc(sizeof(char) * (*l + 1));
+			if (!tmp)
+				return (0);
+			while (j < *l)
+			{
+				tmp[j] = s[j + *i];
+				j++;
+			}
+			tmp[j] = 0;
+			prec = ft_atoi(tmp);
+			free (tmp);
+		}
+	}
+	return (prec);
+}
+
+void	ft_assignstruct(t_toprint *print, va_list *list)
+{
+	char		*(*tabfunct[8])(va_list*);
+	char		*tab;
+	int			index;
+
 	tab = "csdiuxXp";
 	tabfunct[0] = &ft_printf_char;
    	tabfunct[1] = &ft_printf_str;
@@ -65,61 +109,38 @@ int	ft_subprintf(const char *s, va_list *list)
 	tabfunct[6] = &ft_printf_hexaup;
 	tabfunct[7] = &ft_printf_pointer;
 
+	index = get_index(tab, print->format);
+	print->str = (*tabfunct[index])(list);
+	print->len = ft_strlen(print->str);
+	if (print->str[0] == '-')
+		print->len--;
+}
+
+int	ft_subprintf(const char *s, va_list *list)
+{
+	int			i;
+	int			k;
+	int			width;
+	t_toprint	print;
+	int			prec;
+	int			l;
+
+	i = 0;
+	k = 0;
+	l = 0;
+	prec = 0;
+	width = 0;
 	if (s[k] == '-' || s[k] == '0')
 		k++;
 	while (s[i + k] >= '0' && s[i + k] <= '9')
 		i++;
 	if (i)
-	{
-		tmp = malloc(sizeof(char) * (i + 1));
-		if (!tmp)
-			return (0);
-		j = 0;
-		while (j < i)
-		{
-			tmp[j] = s[j + k];
-			j++;
-		}
-		tmp[j] = 0;
-		width = ft_atoi(tmp);
-		free (tmp);
-	}
-	if (s[i + k] == '.')
-	{
-		prec = 1;
-		i++;
-		if (s[i + k] == '*')
-		{
-			prec = va_arg(*list, int);
-			l++;
-		}
-		else
-		{
-			while (s[i + k + l] > '0' && s[i + k + l] <= '9')
-				l++;
-			if (l)
-			{
-				tmp = malloc(sizeof(char) * (l + 1));
-				if (!tmp)
-					return (0);
-				j = 0;
-				while (j < l)
-				{
-					tmp[j] = s[j + i + k];
-					j++;
-				}
-				tmp[j] = 0;
-				prec = ft_atoi(tmp);
-				free (tmp);
-			}
-		}
-	}
-	print.format = s[i + k + l];
-	index = get_index(tab, print.format);
-	print.str = (*tabfunct[index])(list);
-	print.len = ft_strlen(print.str);
-	if (print.str[0] == '-')
-		print.len--;
+		width = ft_getwidth(&i, &k, s);
+	i = i + k;
+	if (s[i] == '.')
+		prec = ft_getprecision(&i, &l, list, s);
+	print.format = s[i + l];
+	ft_assignstruct(&print, list);
 	print.structwidth = width - print.len;
 	ft_allflags(print, k, s, prec);
 	return (width);
