@@ -37,6 +37,7 @@ SRCS		= ft_atoi.c \
 			ft_putnbr_base_bonus.c \
 			ft_unsigned_itoa_bonus.c \
 			ft_unsigned_itoa_base_bonus.c \
+			ft_unsigned_itoa_base_pointer_bonus.c \
 
 SRCS_BONUS		= ft_lstnew.c \
 			ft_lstadd_front.c \

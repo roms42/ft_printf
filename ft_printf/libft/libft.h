@@ -6,7 +6,7 @@
 /*   By: roms <romain.berthaud812@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/11 13:46:38 by roms              #+#    #+#             */
-/*   Updated: 2020/11/19 19:56:21 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 14:25:35 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 		void (*del)(void *));
 void			ft_putnbr_base(unsigned int nbr, char *base);
 char			*ft_unsigned_itoa_base(unsigned long value, char *base, int size);
+char			*ft_unsigned_itoa_base_pointer(unsigned long value, char *base, int size);
 
 #endif

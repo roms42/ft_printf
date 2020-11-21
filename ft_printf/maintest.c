@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:38:08 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/19 19:57:50 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 14:29:53 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int main()
 	printf(" Hello %d %8s %4c %-10.3i %03u %20.18x %-13X\n", n, s, c, n, u, u, u);
 	ft_printf(" Hello %-10.*d yeh %20.18x\n", 10, l, u);
 	printf(" Hello %-10.*d yeh %20.18x\n", 10, l, u);
-	ft_printf("%p\n", p);
-	printf("%p\n", p);
+	ft_printf("%018p\n", p);
+	printf("%018p\n", p);
 }

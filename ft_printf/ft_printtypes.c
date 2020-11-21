@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 17:29:27 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/20 18:30:06 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 14:22:05 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	*ft_printf_pointer(va_list *list)
 	char	*s;
 
 	p = va_arg(*list, unsigned long);
-	s = ft_unsigned_itoa_base(p, "0123456789abcdef", 16);
-	ft_putstr_fd("0x", 1);
+	s = ft_unsigned_itoa_base_pointer(p, "0123456789abcdef", 16);
 	return (s);
 }
