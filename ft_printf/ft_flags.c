@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 18:50:26 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/21 14:53:45 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 16:52:18 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_fminus(t_toprint print, int prec)
 	{
 		ft_putchar_fd('0', 1);
 		prec = prec - 1;
-		print.structwidth--;
+		print.structwidth = print.structwidth - 1;
 	}
 	ft_putstr_fd(print.str, 1);
 	while (print.structwidth > 0)
@@ -40,6 +40,7 @@ void	ft_fzero(t_toprint print)
 	{
 		ft_putchar_fd('-', 1);
 		print.str++;
+		print.structwidth = print.structwidth - 1;
 	}
 	if (print.format == 'p')
 	{

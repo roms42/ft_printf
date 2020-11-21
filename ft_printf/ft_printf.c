@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 16:41:38 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/20 18:29:08 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 16:35:26 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,17 @@ void	ft_allflags(t_toprint print, int k, const char *s, int prec)
 		ft_noflag(print, prec);
 }
 
-int		ft_getwidth(int *i, int *k, const char *s)
+int		ft_getwidth(int *i, int *k, const char *s, va_list *list)
 {
 	int j;
 	char *tmp;
 	int width;
 
+	if (s[*k] == '*')
+	{
+		width = va_arg(*list, int);
+		return (width);
+	}
 	tmp = malloc(sizeof(char) * (*i + 1));
 	if (!tmp)
 		return (0);
@@ -132,10 +137,10 @@ int	ft_subprintf(const char *s, va_list *list)
 	width = 0;
 	if (s[k] == '-' || s[k] == '0')
 		k++;
-	while (s[i + k] >= '0' && s[i + k] <= '9')
+	while ((s[i + k] >= '0' && s[i + k] <= '9') || s[i + k] == '*')
 		i++;
-	if (i)
-		width = ft_getwidth(&i, &k, s);
+	if (i || s[k] == '*')
+		width = ft_getwidth(&i, &k, s, list);
 	i = i + k;
 	if (s[i] == '.')
 		prec = ft_getprecision(&i, &l, list, s);
