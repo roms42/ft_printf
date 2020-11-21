@@ -6,11 +6,12 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 16:41:38 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/21 16:35:26 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 19:50:20 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+#include <stdio.h>
 
 int	get_index(char *tab, char type)
 {
@@ -30,7 +31,9 @@ void	ft_allflags(t_toprint print, int k, const char *s, int prec)
 {
 	if (k && s[0] == '-')
 		ft_fminus(print, prec);
-	else if (k && s[0] == '0' && prec == 0)
+	else if (k && s[0] == '0' && prec == -1)
+		ft_fzero(print);
+	else if (k && s[0] == '0' && print.format == 's')
 		ft_fzero(print);
 	else
 		ft_noflag(print, prec);
@@ -78,7 +81,7 @@ int		ft_getprecision(int *i, int *l, va_list *list, const char *s)
 	}
 	else
 	{
-		while (s[*i + *l] > '0' && s[*i + *l] <= '9')
+		while (s[*i + *l] >= '0' && s[*i + *l] <= '9')
 			*l = *l + 1;
 		if (*l)
 		{
@@ -98,7 +101,7 @@ int		ft_getprecision(int *i, int *l, va_list *list, const char *s)
 	return (prec);
 }
 
-void	ft_assignstruct(t_toprint *print, va_list *list)
+void	ft_assignstruct(t_toprint *print, va_list *list, int *prec)
 {
 	char		*(*tabfunct[8])(va_list*);
 	char		*tab;
@@ -119,6 +122,8 @@ void	ft_assignstruct(t_toprint *print, va_list *list)
 	print->len = ft_strlen(print->str);
 	if (print->str[0] == '-')
 		print->len--;
+	if (print->format == 's' && *prec < print->len && *prec > -1)
+		print->len = *prec;
 }
 
 int	ft_subprintf(const char *s, va_list *list)
@@ -133,7 +138,7 @@ int	ft_subprintf(const char *s, va_list *list)
 	i = 0;
 	k = 0;
 	l = 0;
-	prec = 0;
+	prec = -1;
 	width = 0;
 	if (s[k] == '-' || s[k] == '0')
 		k++;
@@ -145,7 +150,7 @@ int	ft_subprintf(const char *s, va_list *list)
 	if (s[i] == '.')
 		prec = ft_getprecision(&i, &l, list, s);
 	print.format = s[i + l];
-	ft_assignstruct(&print, list);
+	ft_assignstruct(&print, list, &prec);
 	print.structwidth = width - print.len;
 	ft_allflags(print, k, s, prec);
 	return (width);
