@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 18:50:26 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/19 18:51:07 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/21 14:53:45 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	ft_fzero(t_toprint print)
 	{
 		ft_putchar_fd('-', 1);
 		print.str++;
+	}
+	if (print.format == 'p')
+	{
+		ft_putstr_fd("0x", 1);
+		print.str = print.str + 2;
 	}
 	while (print.structwidth > 0)
 	{
