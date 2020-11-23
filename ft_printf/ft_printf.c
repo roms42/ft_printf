@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 16:41:38 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/21 19:50:20 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/23 17:05:21 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ int	get_index(char *tab, char type)
 
 void	ft_allflags(t_toprint print, int k, const char *s, int prec)
 {
-	if (k && s[0] == '-')
+	if ((k && (s[0] == '-' || s[1] == '-')) || print.width < 0)
+	{
+		if (print.width < 0)
+			print.width *= -1;
 		ft_fminus(print, prec);
+	}
 	else if (k && s[0] == '0' && prec == -1)
 		ft_fzero(print);
 	else if (k && s[0] == '0' && print.format == 's')
@@ -45,11 +49,6 @@ int		ft_getwidth(int *i, int *k, const char *s, va_list *list)
 	char *tmp;
 	int width;
 
-	if (s[*k] == '*')
-	{
-		width = va_arg(*list, int);
-		return (width);
-	}
 	tmp = malloc(sizeof(char) * (*i + 1));
 	if (!tmp)
 		return (0);
@@ -61,6 +60,8 @@ int		ft_getwidth(int *i, int *k, const char *s, va_list *list)
 	}
 	tmp[j] = 0;
 	width = ft_atoi(tmp);
+	if (s[*k] == '*')
+		width = va_arg(*list, int);
 	free (tmp);
 	return (width);
 }
@@ -74,7 +75,9 @@ int		ft_getprecision(int *i, int *l, va_list *list, const char *s)
 	j = 0;
 	prec = 1;
 	*i = *i + 1;
-	if (s[*i] == '*')
+	if ((s[*i] < '0' || s[*i] > '9') && s[*i] != '*')
+		prec = 0;
+	else if (s[*i] == '*')
 	{
 		prec = va_arg(*list, int);
 		*l = *l + 1;
@@ -120,17 +123,20 @@ void	ft_assignstruct(t_toprint *print, va_list *list, int *prec)
 	index = get_index(tab, print->format);
 	print->str = (*tabfunct[index])(list);
 	print->len = ft_strlen(print->str);
+	if (print->str[0] == 0 && print->format == 'c')
+		print->len = 1;
 	if (print->str[0] == '-')
 		print->len--;
 	if (print->format == 's' && *prec < print->len && *prec > -1)
 		print->len = *prec;
+	if (print->format == 's' && *prec > print->len && print->width != 0)
+		*prec = print->len;
 }
 
 int	ft_subprintf(const char *s, va_list *list)
 {
 	int			i;
 	int			k;
-	int			width;
 	t_toprint	print;
 	int			prec;
 	int			l;
@@ -139,21 +145,26 @@ int	ft_subprintf(const char *s, va_list *list)
 	k = 0;
 	l = 0;
 	prec = -1;
-	width = 0;
-	if (s[k] == '-' || s[k] == '0')
+	print.width = 0;
+	while (s[k] == '-' || s[k] == '0')
 		k++;
 	while ((s[i + k] >= '0' && s[i + k] <= '9') || s[i + k] == '*')
 		i++;
 	if (i || s[k] == '*')
-		width = ft_getwidth(&i, &k, s, list);
+		print.width = ft_getwidth(&i, &k, s, list);
 	i = i + k;
 	if (s[i] == '.')
 		prec = ft_getprecision(&i, &l, list, s);
 	print.format = s[i + l];
+	if (l == 0 && print.format == 's' && prec == 1)
+		prec = 0;
 	ft_assignstruct(&print, list, &prec);
-	print.structwidth = width - print.len;
+	if (print.width < 0)
+		print.structwidth = (print.width * -1) - print.len;
+	else
+		print.structwidth = print.width - print.len;
 	ft_allflags(print, k, s, prec);
-	return (width);
+	return (print.width);
 }
 
 int		ft_getinstructs(const char *s)

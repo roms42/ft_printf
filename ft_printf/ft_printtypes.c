@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 17:29:27 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/21 14:22:05 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/23 17:03:05 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ char	*ft_printf_str(va_list *list)
 	char	*str;
 
 	str = va_arg(*list, char *);
+	if (str == NULL)
+	{
+		free(str);
+		if (!(str = malloc(sizeof(char) * 7)))
+			return (NULL);
+		str = "(null)";
+	}
 	return (str);
 }
 

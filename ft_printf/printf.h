@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:37:37 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/19 19:23:55 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/23 16:36:51 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct	s_toprint
 	char	format;
 	char	*str;
 	int		len;
+	int		width;
 }				t_toprint;
 
 #include "libft/libft.h"
