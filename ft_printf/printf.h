@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:37:37 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/23 16:36:51 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/25 13:08:31 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct	s_toprint
 	char	*str;
 	int		len;
 	int		width;
+	int		count;
 }				t_toprint;
 
 #include "libft/libft.h"
@@ -33,8 +34,8 @@ char	*ft_printf_unsigned(va_list *list);
 char	*ft_printf_hexalow(va_list *list);
 char	*ft_printf_hexaup(va_list *list);
 char	*ft_printf_pointer(va_list *list);
-void	ft_fminus(t_toprint print, int prec);
-void	ft_fzero(t_toprint print);
-void	ft_noflag(t_toprint print, int prec);
+void	ft_fminus(t_toprint *print, int prec);
+void	ft_fzero(t_toprint *print);
+void	ft_noflag(t_toprint *print, int prec);
 
 #endif
