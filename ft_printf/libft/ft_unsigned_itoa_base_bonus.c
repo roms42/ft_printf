@@ -6,11 +6,26 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:03:54 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/21 14:24:06 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/26 20:36:37 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int		ft_length(unsigned long nb, unsigned long value, int size)
+{
+	int len;
+
+	len = 0;
+	while (nb > 0)
+	{
+		nb = nb / size;
+		len++;
+	}
+	if (value == 0)
+		len = 1;
+	return (len);
+}
 
 char	*ft_unsigned_itoa_base(unsigned long value, char *base, int size)
 {
@@ -21,16 +36,9 @@ char	*ft_unsigned_itoa_base(unsigned long value, char *base, int size)
 	char			*dest;
 
 	n = value;
-	len = 0;
 	i = 0;
 	nb = n;
-	while (nb > 0)
-	{
-		nb = nb / size;
-		len ++;
-	}
-	if (value == 0)
-		len = 1;
+	len = ft_length(nb, value, size);
 	if (!(dest = malloc(sizeof(char) * len + 1)))
 		return (NULL);
 	i = len - 1;

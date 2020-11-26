@@ -1,6 +1,13 @@
 SRCS		= 	ft_printf.c \
 				ft_printtypes.c \
-				ft_flags.c \
+				ft_printtypes2.c \
+				ft_minus.c \
+				ft_fzero.c \
+				ft_noflag.c \
+				ft_width_prec.c \
+				ft_assignstruct.c \
+				ft_padding.c \
+				ft_subprintf.c \
 
 HEADERS		=	printf.h
 
