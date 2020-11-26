@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 16:41:38 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/25 22:19:44 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/26 17:12:34 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		ft_getprecision(int *i, int *l, va_list *list, const char *s)
 	return (prec);
 }
 
-void	ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
+int		ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
 {
 	char		*(*tabfunct[8])(va_list*);
 	char		*tab;
@@ -134,11 +134,12 @@ void	ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
 		if (!(print->str = malloc(sizeof(char) * 2)))
 		{
 			print->str = NULL;
-			return ;
+			return (0);
 		}
 		print->str[0] = '%';
 		print->str[1] = 0;
 		s++;
+		*prec = -1;
 	}
 	else
 	{
@@ -161,8 +162,8 @@ void	ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
 	if (print->str[0] == 0 && print->format == 'c')
 		print->len = 1;
 	if ((print->str[0] == 0 || print->str[0] == '0') && *prec == 0
-			&& print->format != 's'&& print->format != 'c'
-		   	&& print->format != 'p' && print->width == 0)
+			&& print->format != 's' && print->format != 'c'
+		   	/*&& print->format != 'p' */&& print->width == 0)
 		print->width--;
 	if ((print->width <= 0 || print->width < print->len)
 			&& print->format != 'p'
@@ -180,12 +181,16 @@ void	ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
 		print->width = print->len - 1;
 	else if ((print->width <= 0 || print->width < print->len)
 			&& print->format != 's'
+			&& print->format != 'p'
 			&& j == 1)
 		print->width = print->len;
 	if (print->str[2] == '0' && *prec == 0 && print->format == 'p')
 	{
 		print->len--;
-		print->width--;
+		if (print->width >= 0)
+			print->width--;
+		/*else
+			print->width++;*/
 	}
 	if (print->str[0] == '-' && print->format != 's')
 		print->len--;
@@ -196,6 +201,8 @@ void	ft_assignstruct(t_toprint *print, va_list *list, int *prec, const char *s)
 	/*if ((print->width <= 0 || print->width < print->len)
 			&& print->format == 's' && j == 1 && *prec == -1)
 		print->width = print->len;*/
+
+	return (j);
 }
 
 int	ft_subprintf(const char *s, va_list *list)
@@ -205,6 +212,7 @@ int	ft_subprintf(const char *s, va_list *list)
 	t_toprint	print;
 	int			prec;
 	int			l;
+	int j;
 
 	i = 0;
 	k = 0;
@@ -237,10 +245,14 @@ int	ft_subprintf(const char *s, va_list *list)
 		prec = 0;
 	if (prec < -1)
 		prec = -1;
-	ft_assignstruct(&print, list, &prec, s);
+	j = ft_assignstruct(&print, list, &prec, s);
 	if (print.str[2] == '0' && prec == 0 && print.format == 'p'
-			&& print.width > print.len)
+			&& print.width >= print.len)
 		print.width++;
+	if ((print.width <= 0 || print.width < print.len)
+			&& print.format == 'p'
+			&& j == 1)
+		print.width = print.len;
 	if (print.width < 0)
 		print.structwidth = (print.width * -1) - print.len;
 	else
@@ -294,36 +306,6 @@ int	ft_printf(const char *s, ...)
 	{
 		if (*s == '%')
 		{
-			/*if (j > 0)
-			{
-				if (s[-1] == '%' && s[1] != 0)
-				{
-					s++;
-					ft_putchar_fd(*s, 1);
-					write(1, &c, 1);
-					s++;
-					n++;
-					j = 0;
-				}
-				else
-				{
-					j = 1;
-					s++;
-					if (*s)
-					{
-						i = 0;
-						n += ft_subprintf(s, &list);
-						i =	ft_getinstructs(s, &n);
-						s += i;
-						if (*s == 'd' || *s == 'i' || *s == 'u' || *s == 'x'
-								|| *s == 'X' || *s == 'p' || *s == 'c'
-								|| *s == 's')
-							s += 1;
-					}
-				}
-			}
-			else
-			{*/
 			j = 1;
 			s++;
 			if (*s)

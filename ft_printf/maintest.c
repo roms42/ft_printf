@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:38:08 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/25 21:27:17 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/26 16:45:36 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,4 +236,16 @@ ft_printf("%d\n", ft_printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%
     printf(" --- Return : %d\n", printf("(null)"));
 	printf(" --- Return : %d\n", printf(""));
 */
+
+	
+	p = 0;
+	printf(" --- Return = %d\n", printf("-->|%-*.p|<--\n", 3, p));
+	ft_printf(" --- Return = %d\n", ft_printf("-->|%-*.p|<--\n", 3, p));
+
+	printf(" --- Return = %d\n", printf("-->|%-*.p|<--\n", -16, p));
+	ft_printf(" --- Return = %d\n", ft_printf("-->|%-*.p|<--\n", -16, p));
+
+	printf(" --- Return = %d\n", printf("-->|%.p|<--\n", p));
+	ft_printf(" --- Return = %d\n", ft_printf("-->|%.p|<--\n", p));
+
 }
