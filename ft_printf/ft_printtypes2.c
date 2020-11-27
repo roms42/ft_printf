@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 23:27:47 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/26 23:28:30 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/27 01:37:18 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*ft_printf_char(va_list *list)
 char	*ft_printf_str(va_list *list)
 {
 	char	*str;
+	char	*tmp;
 
 	str = va_arg(*list, char *);
 	if (str == NULL)
@@ -40,7 +41,8 @@ char	*ft_printf_str(va_list *list)
 			return (NULL);
 		str = "(null)";
 	}
-	return (str);
+	tmp = ft_strdup(str);
+	return (tmp);
 }
 
 char	*ft_printf_int(va_list *list)

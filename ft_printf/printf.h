@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:37:37 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/27 00:00:25 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/27 01:15:31 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_toprint
 	int		width;
 	int		prec;
 	int		count;
+	char	*tmp;
 }				t_toprint;
 
 int				ft_printf(const char *s, ...);

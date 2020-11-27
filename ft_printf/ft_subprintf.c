@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 23:49:29 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/26 23:50:55 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/27 01:16:55 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ int			ft_subprintf(const char *s, va_list *list)
 	j = ft_padding(&print, list, s);
 	ft_subprintf3(&print, j);
 	ft_allflags(&print, k, s);
+	free(print.tmp);
 	return (print.count);
 }

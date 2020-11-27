@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 23:35:53 by rberthau          #+#    #+#             */
-/*   Updated: 2020/11/26 23:37:05 by rberthau         ###   ########.fr       */
+/*   Updated: 2020/11/27 01:17:04 by rberthau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ void		ft_assignstruct(t_toprint *print, va_list *list, const char *s)
 		print->str = (*tabfunct[index])(list);
 	}
 	print->len = ft_strlen(print->str);
+	print->tmp = print->str;
 }
