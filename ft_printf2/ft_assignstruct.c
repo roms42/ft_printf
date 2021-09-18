@@ -6,7 +6,7 @@
 /*   By: rberthau <rberthau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 23:35:53 by rberthau          #+#    #+#             */
-/*   Updated: 2021/09/18 11:50:24 by roms             ###   ########.fr       */
+/*   Updated: 2021/09/18 11:58:03 by roms             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	get_index(char *tab, char type)
 
 void	ft_percentflag(t_toprint *print, const char *s)
 {
-	if (!(print->str = malloc(sizeof(char) * 2)))
+	print->str = malloc(sizeof(char) * 2);
+	if (!(print->str))
 	{
 		print->str = NULL;
 		return ;
@@ -39,7 +40,7 @@ void	ft_percentflag(t_toprint *print, const char *s)
 	print->prec = -1;
 }
 
-void		ft_assignstruct(t_toprint *print, va_list *list, const char *s)
+void	ft_assignstruct(t_toprint *print, va_list *list, const char *s)
 {
 	char		*(*tabfunct[8])(va_list*);
 	char		*tab;
